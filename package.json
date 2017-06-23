@@ -1,0 +1,25 @@
+{
+  "name": "blocket-scraper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha '**/*.spec.js' --reporter spec --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.0.2",
+    "cheerio": "^1.0.0-rc.1",
+    "cron": "^1.2.1",
+    "knex": "^0.13.0",
+    "messenger-bot": "^2.4.0",
+    "mocha": "^3.4.2",
+    "moment": "^2.18.1",
+    "node-cron": "^1.2.0",
+    "pg": "^6.4.0",
+    "request": "^2.81.0",
+    "request-promise-native": "^1.0.4"
+  }
+}
