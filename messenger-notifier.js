@@ -26,7 +26,7 @@ async function notifyUsersAboutOffers(offersIds) {
 
 function sendMessage(mid, offer) {
     return new Promise((resolve, reject) => {
-        bot.sendMessage(Number(mid), {
+        bot.sendMessage({id: Number(mid)}, {
             text: `New offer!\nTitle: ${offer.title}\nRooms: ${offer.rooms}\nSize: ${offer.size}\nLink: ${offer.link},\nRent: ${offer.rent}`
         }, (err, info) => {
             if (err) {
@@ -42,7 +42,7 @@ function sendMessage(mid, offer) {
 
 function sendAttachment(mid, offer) {
     return new Promise((resolve, reject) => {
-        bot.sendMessage(Number(mid), {
+        bot.sendMessage({id: Number(mid)}, {
             attachment: {
                 type: 'image',
                 payload: offer.image_url
