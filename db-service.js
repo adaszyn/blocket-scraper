@@ -50,7 +50,7 @@ function conditionallyInsertOffers(offers) {
 }
 
 function getUserByMID(mid) {
-    return knex('user')
+    return knex('users')
         .select('*')
         .where('mid', '=', mid)
 }
