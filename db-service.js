@@ -89,9 +89,24 @@ async function unregisterUser(user) {
             .where('mid', '=', user.mid)
     }
 }
+
+function getSubscribedUsers () {
+    return knex('users')
+        .select('mid')
+        .where('is_subscribed', '=', true)
+}
+
+function getOffersByIds(offersIds) {
+    return knex('offers')
+        .select('*')
+        .whereIn('id', offersIds)
+}
+
 module.exports = {
     insertOffer,
     conditionallyInsertOffers,
     unregisterUser,
-    registerUser
+    registerUser,
+    getSubscribedUsers,
+    getOffersByIds
 }

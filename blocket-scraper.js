@@ -3,7 +3,7 @@ const request = require('request-promise-native')
 const fs = require('fs')
 const path = require('path')
 const moment = require('moment')
-const dbService = require('./db-service')
+const {notifyUsersAboutOffers} = require("./messenger-notifier")
 const {conditionallyInsertOffers} = require("./db-service")
 
 const BLOCKET_URL = 'https://www.blocket.se/bostad/uthyres/stockholm?sort=&ss=&se=&ros=1&roe=&bs=&be=&mre=&q=&q=&q=&is=1&save_search=1&l=0&md=th&f=p&f=c&f=b&as=131_5&m=129&m=130'
@@ -71,8 +71,11 @@ function scrapeBlocket() {
         .then(parsedOffers => {
             return conditionallyInsertOffers(parsedOffers)
         })
+        .then((offersIds) => {
+            return notifyUsersAboutOffers(offersIds)
+        })
         .then((data) => {
-        console.log(data);
+            console.log(data);
             process.exit(0)
         })
         .catch((err) => {
