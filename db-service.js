@@ -56,8 +56,9 @@ function getUserByMID(mid) {
 }
 
 async function registerUser(user) {
-    const existingUser = await getUserByMID(user)
-    if (existingUser) {
+    const existingUser = await getUserByMID(user.mid)
+    console.log('existing user', existingUser)
+    if (existingUser.length) {
         return knex('users')
             .update({
                 is_subscribed: true,
@@ -79,7 +80,7 @@ async function registerUser(user) {
 }
 
 async function unregisterUser(user) {
-    const existingUser = await getUserByMID(user)
+    const existingUser = await getUserByMID(user.mid)
     if (existingUser) {
         return knex('users')
             .update({
