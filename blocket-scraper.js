@@ -72,6 +72,7 @@ function scrapeBlocket() {
             return conditionallyInsertOffers(parsedOffers)
         })
         .then((offersIds) => {
+            console.log('offer ids', offersIds);
             return notifyUsersAboutOffers(offersIds)
         })
         .then((data) => {

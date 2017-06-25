@@ -10,11 +10,13 @@ let bot = new Bot({
 async function notifyUsersAboutOffers(offersIds) {
     const userIds = await getSubscribedUsers()
     const offers = await getOffersByIds(offersIds)
+    console.log('offerIds', offersIds)
     console.log('Sending offers', offers)
     console.log('To users:', userIds)
-    for (let userId of userIds) {
+    for (let { mid } of userIds) {
         for (let offer of offers) {
-            bot.sendMessage(userId, {
+            console.log(`...sending offer ${offer.id} to ${mid}`);
+            bot.sendMessage(mid, {
                 text: `New offer!\nTitle: ${offer.title}\nRooms: ${offer.rooms}\nSize: ${offer.size}\nLink: ${offer.link},\nRent: ${offer.rent}`,
                 attachment: {
                     type: 'image',
