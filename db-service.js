@@ -1,5 +1,7 @@
+const moment = require('moment')
 const knex = require('./db')
 const CHUNK_SIZE = 50
+
 
 function insertOffer(offer) {
     const q = knex('offers')
@@ -47,7 +49,48 @@ function conditionallyInsertOffers(offers) {
         })
 }
 
+function getUserByMID(mid) {
+    return knex('user')
+        .select('*')
+        .where('mid', '=', mid)
+}
+
+async function registerUser(user) {
+    const existingUser = await getUserByMID(user)
+    if (existingUser) {
+        return knex('users')
+            .update({
+                is_subscribed: true,
+                registered_at: moment().format()
+            })
+            .where('mid', '=', user.mid)
+    } else {
+        return knex('users')
+            .insert({
+                name: user.first_name,
+                surname: user.last_name,
+                gender: user.gender,
+                mid: user.mid,
+                profile_pic: user.profile_pic,
+                registered_at: moment().format(),
+                is_subscribed: true
+            })
+    }
+}
+
+async function unregisterUser(user) {
+    const existingUser = await getUserByMID(user)
+    if (existingUser) {
+        return knex('users')
+            .update({
+                is_subscribed: false
+            })
+            .where('mid', '=', user.mid)
+    }
+}
 module.exports = {
     insertOffer,
-    conditionallyInsertOffers
+    conditionallyInsertOffers,
+    unregisterUser,
+    registerUser
 }
