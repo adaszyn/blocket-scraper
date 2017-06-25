@@ -16,12 +16,15 @@ async function notifyUsersAboutOffers(offersIds) {
     for (let { mid } of userIds) {
         for (let offer of offers) {
             console.log(`...sending offer ${offer.id} to ${mid}`);
-            bot.sendMessage(mid, {
+            bot.sendMessage(Number(mid), {
                 text: `New offer!\nTitle: ${offer.title}\nRooms: ${offer.rooms}\nSize: ${offer.size}\nLink: ${offer.link},\nRent: ${offer.rent}`,
                 attachment: {
                     type: 'image',
                     payload: offer.image_url
                 }
+            }, (err, info) => {
+                console.log('err', err)
+                console.log('info', info)
             })
         }
     }
