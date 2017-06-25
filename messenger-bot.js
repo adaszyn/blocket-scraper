@@ -19,11 +19,13 @@ bot.on('message', (payload, reply) => {
         if (err) throw err
         const user = buildUserObject(payload.recipient.id, profile)
         if (text === 'register') {
-            replyToMessagerBot(reply, 'registering your subscription')
-            return registerUser(user)
+            return registerUser(user).then(() => {
+                replyToMessagerBot(reply, 'registering your subscription', profile)
+            })
         } else if (text === 'unregister') {
-            replyToMessagerBot(reply, 'unregistering your subscription')
-            return unregisterUser(user)
+            return unregisterUser(user).then(() => {
+                replyToMessagerBot(reply, 'unregistering your subscription', profile)
+            })
         } else {
             replyToMessagerBot(reply, 'Unknown command, use: "register" or "unregister"')
         }
@@ -34,7 +36,7 @@ function buildUserObject(id, profile) {
     return Object.assign({}, profile, {mid: id})
 }
 
-function replyToMessagerBot(reply, text) {
+function replyToMessagerBot(reply, text, profile) {
     reply({ text }, (err) => {
         if (err) throw err
         console.log(`Message sent to ${profile.first_name} ${profile.last_name}: ${text}`)
