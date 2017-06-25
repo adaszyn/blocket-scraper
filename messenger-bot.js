@@ -17,7 +17,7 @@ bot.on('message', (payload, reply) => {
 
     bot.getProfile(payload.sender.id, (err, profile) => {
         if (err) throw err
-        const user = buildUserObject(payload.recipient.id, profile)
+        const user = buildUserObject(payload.sender.id, profile)
         if (text === 'register') {
             return registerUser(user).then(() => {
                 replyToMessagerBot(reply, 'registering your subscription', profile)
