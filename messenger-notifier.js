@@ -1,5 +1,5 @@
 const Bot = require('messenger-bot')
-const { getSubscribedUsers, getOffersByIds } = require('./db-service')
+const {getSubscribedUsers, getOffersByIds} = require('./db-service')
 
 let bot = new Bot({
     token: 'EAADCUdppQl0BAHxC9ncSdq6oE1e3I71l1VqzAMAEKYLjOzgZC7B7KVSuukYuFDZATgLjieVGjKBF0l0JBjFBQCJsOjyJxY5B6pIMTakKA1TC7ZBTW7T8uezRZAMG4yf8dIzNrCbxMt52TTe4HvGUEnKbUflULSAGh7AoqcUnKtCRGPgt6Eb7',
@@ -13,10 +13,13 @@ async function notifyUsersAboutOffers(offersIds) {
     console.log('offerIds', offersIds)
     console.log('Sending offers', offers)
     console.log('To users:', userIds)
-    for (let { mid } of userIds) {
+    for (let {mid} of userIds) {
         for (let offer of offers) {
             console.log(`...sending offer ${offer.id} to ${mid}`);
             await sendMessage(mid, offer)
+            if (offer.image_url) {
+                await sendAttachment(mid, offer)
+            }
         }
     }
 }
@@ -24,7 +27,22 @@ async function notifyUsersAboutOffers(offersIds) {
 function sendMessage(mid, offer) {
     return new Promise((resolve, reject) => {
         bot.sendMessage(Number(mid), {
-            text: `New offer!\nTitle: ${offer.title}\nRooms: ${offer.rooms}\nSize: ${offer.size}\nLink: ${offer.link},\nRent: ${offer.rent}`,
+            text: `New offer!\nTitle: ${offer.title}\nRooms: ${offer.rooms}\nSize: ${offer.size}\nLink: ${offer.link},\nRent: ${offer.rent}`
+        }, (err, info) => {
+            if (err) {
+                console.log(err)
+                return reject(err)
+            }
+            console.log(info)
+            resolve(info)
+        })
+    })
+}
+
+
+function sendAttachment(mid, offer) {
+    return new Promise((resolve, reject) => {
+        bot.sendMessage(Number(mid), {
             attachment: {
                 type: 'image',
                 payload: offer.image_url
