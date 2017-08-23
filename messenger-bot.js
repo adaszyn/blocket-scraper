@@ -3,9 +3,9 @@ const Bot = require('messenger-bot')
 const {registerUser, unregisterUser} = require("./db-service")
 
 let bot = new Bot({
-    token: 'EAADCUdppQl0BAHxC9ncSdq6oE1e3I71l1VqzAMAEKYLjOzgZC7B7KVSuukYuFDZATgLjieVGjKBF0l0JBjFBQCJsOjyJxY5B6pIMTakKA1TC7ZBTW7T8uezRZAMG4yf8dIzNrCbxMt52TTe4HvGUEnKbUflULSAGh7AoqcUnKtCRGPgt6Eb7',
-    verify: 'messenger-token-verify123',
-    app_secret: '363ef0099aab56cada8b78ac7774a4de'
+    token: process.env.TOKEN,
+    verify: process.env.VERIFY_TOKEN,
+    app_secret: process.env.APP_SECRET
 })
 
 bot.on('error', (err) => {

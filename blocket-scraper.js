@@ -61,9 +61,6 @@ function parsePageToOffers(pageBody) {
     return offerObjects.toArray()
 }
 
-// const samplePage = fs.readFileSync(path.join(__dirname, 'blocket-sample-page.html'))
-// const parsedOffers = parsePageToOffers(samplePage.toString())
-
 function scrapeBlocket() {
 
     return requestBlocketPage()
@@ -72,11 +69,9 @@ function scrapeBlocket() {
             return conditionallyInsertOffers(parsedOffers)
         })
         .then((offersIds) => {
-            console.log('offer ids', offersIds);
             return notifyUsersAboutOffers(offersIds)
         })
         .then((data) => {
-            console.log(data);
             process.exit(0)
         })
         .catch((err) => {
