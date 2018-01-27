@@ -7,14 +7,26 @@ let bot = new Bot({
     app_secret: process.env.APP_SECRET
 })
 
+function offersFilter(offer) {
+    const { title, rent } = offer;
+    if (title.toLowerCase().contains('rum')) {
+        return false;
+    }
+    if (rent < 6000) {
+        return false;
+    }
+    return true;
+}
+
 async function notifyUsersAboutOffers(offersIds) {
     const userIds = await getSubscribedUsers()
     const offers = await getOffersByIds(offersIds)
+    const filteredOffers = offers.filter(offersFilter)
     console.log('offerIds', offersIds)
-    console.log('Sending offers', offers)
+    console.log('Sending offers', filteredOffers)
     console.log('To users:', userIds)
     for (let {mid} of userIds) {
-        for (let offer of offers) {
+        for (let offer of filteredOffers) {
             console.log(`...sending offer ${offer.id} to ${mid}`);
             await sendMessage(mid, offer)
             if (offer.image_url) {
