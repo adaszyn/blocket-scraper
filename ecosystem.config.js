@@ -12,7 +12,7 @@ module.exports = {
             ref: 'origin/master',
             repo: 'git@github.com:wojciechAdaszynski/blocket-scraper.git',
             path: '/opt/blocket-scraper',
-            'post-deploy': 'NODE_ENV=production npm install && npm run migrate && pm2 reload ecosystem.config.js --env production'
+            'post-deploy': 'NODE_ENV=production npm install && npm run migrate && pm2 reload ecosystem.config.js --env production --update-env'
         }
     }
 };
