@@ -1,11 +1,9 @@
-const knex = require('knex')({
-    client: 'pg',
-    connection: {
-        host : process.env.DB_HOST,
-        user : 'db_admin',
-        password : process.env.DB_PASS,
-        database : 'blocket-scraper'
-    }
-});
+const knexConfigs = require('./knexfile');
+const NODE_ENV = process.env.NODE_ENV;
+const config = NODE_ENV === 'production'
+  ? knexConfigs.production
+  : knexConfigs.development;
 
-module.exports = knex
+const knex = require('knex')(config);
+
+module.exports = knex;

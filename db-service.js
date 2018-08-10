@@ -43,7 +43,7 @@ function conditionallyInsertOffers(offers) {
                 dict[link] = true
                 return dict
             }, {})
-            const filteredOffers = offers.filter((offer) => !(linksDict[offer.link]))
+            const filteredOffers = offers.filter((offer) => ! (offer.link in linksDict));
             return knex.batchInsert('offers', filteredOffers.map(mapObjectToRow), CHUNK_SIZE)
                 .returning('id')
         })
