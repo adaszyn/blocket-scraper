@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const env = process.env;
 
 const DB_HOST = env.DB_HOST;
